@@ -76,9 +76,6 @@ ram.runtime = "50M"
     [resources.system_user]
 
     [resources.install_dir]
-    dir = "/var/www/__APP__"
-    owner = "__APP__:rwx"
-    group = "__APP__:rx"
 
     [resources.permissions]
     main.url = "/"

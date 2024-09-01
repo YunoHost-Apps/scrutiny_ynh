@@ -43,7 +43,7 @@ then
 	ynh_store_file_checksum "$install_dir/config/scrutiny.yaml"
 
 	# Update collector.yaml
-	port=$(ynh_app_setting_get  --key=port)
+	port=$(ynh_app_setting_get --key=port)
 	key="endpoint"
 	new_value="'http:\/\/127.0.0.1:${port}${new_base_path}\/'"
 	sed --regexp-extended  "s/^(\s*${key}:\s*).*/\1${new_value}/" --in-place "$install_dir/config/collector.yaml"
