@@ -5,7 +5,7 @@ EZ editatu eskuz.
 
 # Scrutiny YunoHost-erako
 
-[![Integrazio maila](https://dash.yunohost.org/integration/scrutiny.svg)](https://dash.yunohost.org/appci/app/scrutiny) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/scrutiny.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/scrutiny.maintain.svg)
+[![Integrazio maila](https://dash.yunohost.org/integration/scrutiny.svg)](https://ci-apps.yunohost.org/ci/apps/scrutiny/) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/scrutiny.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/scrutiny.maintain.svg)
 
 [![Instalatu Scrutiny YunoHost-ekin](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=scrutiny)
 

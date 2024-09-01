@@ -5,7 +5,7 @@ No se debe editar a mano.
 
 # Scrutiny para Yunohost
 
-[![Nivel de integración](https://dash.yunohost.org/integration/scrutiny.svg)](https://dash.yunohost.org/appci/app/scrutiny) ![Estado funcional](https://ci-apps.yunohost.org/ci/badges/scrutiny.status.svg) ![Estado En Mantención](https://ci-apps.yunohost.org/ci/badges/scrutiny.maintain.svg)
+[![Nivel de integración](https://dash.yunohost.org/integration/scrutiny.svg)](https://ci-apps.yunohost.org/ci/apps/scrutiny/) ![Estado funcional](https://ci-apps.yunohost.org/ci/badges/scrutiny.status.svg) ![Estado En Mantención](https://ci-apps.yunohost.org/ci/badges/scrutiny.maintain.svg)
 
 [![Instalar Scrutiny con Yunhost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=scrutiny)
 
