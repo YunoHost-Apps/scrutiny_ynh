@@ -1,34 +1,26 @@
 #!/bin/bash
 
-#=================================================
-# GENERIC STARTING
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# STANDARD MODIFICATIONS
-#=================================================
 # STOP SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Stopping a systemd service..." --weight=1
+ynh_script_progression "Stopping $app's systemd service..."
 
-ynh_systemd_action --service_name="influxdb" --action="stop"
-ynh_systemd_action --service_name="scrutiny-web-server.service" --action="stop" --log_path="/var/log/$app/web-server.log"
+ynh_systemctl --service="influxdb" --action="stop"
+ynh_systemctl --service="scrutiny-web-server.service" --action="stop" --log_path="/var/log/$app/web-server.log"
 if [ $collector -eq 1 ]
 then
-    ynh_systemd_action --service_name="scrutiny-collector.timer" --action="stop" --log_path="/var/log/$app/collector.log"
+    ynh_systemctl --service="scrutiny-collector.timer" --action="stop" --log_path="/var/log/$app/collector.log"
 fi
 
 #=================================================
 # MODIFY URL IN NGINX CONF
 #=================================================
-ynh_script_progression --message="Updating NGINX web server configuration..." --weight=1
+ynh_script_progression "Updating NGINX web server configuration..."
 
-ynh_change_url_nginx_config
+ynh_config_change_url_nginx
 
 #=================================================
 # SPECIFIC MODIFICATIONS
@@ -48,34 +40,32 @@ then
 	key="basepath"
 	new_value="'$new_base_path'"
 	sed --regexp-extended  "s/^(\s*${key}:\s*).*/\1${new_value}/" --in-place "$install_dir/config/scrutiny.yaml"
-	ynh_store_file_checksum --file="$install_dir/config/scrutiny.yaml"
-	
+	ynh_store_file_checksum "$install_dir/config/scrutiny.yaml"
+
 	# Update collector.yaml
-	port=$(ynh_app_setting_get  --app=$app --key=port)
+	port=$(ynh_app_setting_get  --key=port)
 	key="endpoint"
 	new_value="'http:\/\/127.0.0.1:${port}${new_base_path}\/'"
 	sed --regexp-extended  "s/^(\s*${key}:\s*).*/\1${new_value}/" --in-place "$install_dir/config/collector.yaml"
-	ynh_store_file_checksum --file="$install_dir/config/collector.yaml"
+	ynh_store_file_checksum "$install_dir/config/collector.yaml"
 fi
 
 #=================================================
-# GENERIC FINALISATION
-#=================================================
 # START SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Starting a systemd service..." --weight=1
+ynh_script_progression "Starting $app's systemd service..."
 
 systemctl daemon-reload
 
-ynh_systemd_action --service_name="influxdb" --action="start"
-ynh_systemd_action --service_name="scrutiny-web-server.service" --action="start" --log_path="/var/log/$app/web-server.log"
+ynh_systemctl --service="influxdb" --action="start"
+ynh_systemctl --service="scrutiny-web-server.service" --action="start" --log_path="/var/log/$app/web-server.log"
 if [ $collector -eq 1 ]
 then
-	ynh_systemd_action --service_name="scrutiny-collector.timer" --action="start" --log_path="/var/log/$app/collector.log"
+	ynh_systemctl --service="scrutiny-collector.timer" --action="start" --log_path="/var/log/$app/collector.log"
 fi
 
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Change of URL completed for $app" --last
+ynh_script_progression "Change of URL completed for $app"

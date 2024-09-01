@@ -1,11 +1,5 @@
 #!/bin/bash
 
-#=================================================
-# GENERIC START
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
 
@@ -14,7 +8,7 @@ source /usr/share/yunohost/helpers
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-ynh_script_progression --message="Setting up source files..." --weight=1
+ynh_script_progression "Setting up source files..."
 
 mkdir -p "$install_dir/bin"
 ynh_setup_source --source_id="main" --dest_dir="$install_dir/bin"
@@ -26,30 +20,30 @@ ynh_setup_source --source_id="scrutiny-web-frontend" --dest_dir="$install_dir/we
 #=================================================
 # SYSTEM CONFIGURATION
 #=================================================
-ynh_script_progression --message="Adding system configurations related to $app ..." --weight=1
+ynh_script_progression "Adding system configurations related to $app ..."
 
 # Create a dedicated NGINX config using the conf/nginx.conf template
-ynh_add_nginx_config
+ynh_config_add_nginx
 
 # Create a dedicated systemd config
-ynh_add_systemd_config --service="scrutiny-web-server" --template="systemd-scrutiny-web-server.service"
+ynh_config_add_systemd --service="scrutiny-web-server" --template="systemd-scrutiny-web-server.service"
 yunohost service add "scrutiny-web-server" --description="WebUI for smartd S.M.A.R.T monitoring" --log="/var/log/$app/web-server.log" --test_status="systemctl show scrutiny-web-server.service -p ActiveState --value | grep -v failed"
 
-ynh_add_config --template="systemd-scrutiny-collector.service" --destination="/etc/systemd/system/scrutiny-collector.service"
+ynh_config_add --template="systemd-scrutiny-collector.service" --destination="/etc/systemd/system/scrutiny-collector.service"
 if [ $collector -eq 1 ]
 then
 	yunohost service add "scrutiny-collector" --description="Collector running on timer (daily) for smartd S.M.A.R.T monitoring" --log="/var/log/$app/collector.log" --test_status="systemctl show scrutiny-collector.service -p ActiveState --value | grep -v failed"
 fi
 
 # Use logrotate to manage application logfile(s)
-ynh_use_logrotate --specific_user="$app"
+ynh_config_add_logrotate
 
 #=================================================
 # APP INITIAL CONFIGURATION
 #=================================================
 # ADD A CONFIGURATION
 #=================================================
-ynh_script_progression --message="Adding a configuration file..." --weight=1
+ynh_script_progression "Adding $app's configuration..."
 
 mkdir -p "$install_dir/config"
 if [ "${path}" == "/" ]
@@ -58,10 +52,10 @@ then
 else
 	base_path="${path}"
 fi
-ynh_add_config --template="config/scrutiny.yaml" --destination="$install_dir/config/scrutiny.yaml"
+ynh_config_add --template="config/scrutiny.yaml" --destination="$install_dir/config/scrutiny.yaml"
 
-ynh_add_config --template="systemd-scrutiny-collector.timer" --destination="/etc/systemd/system/scrutiny-collector.timer"
-ynh_add_config --template="config/collector.yaml" --destination="$install_dir/config/collector.yaml"
+ynh_config_add --template="systemd-scrutiny-collector.timer" --destination="/etc/systemd/system/scrutiny-collector.timer"
+ynh_config_add --template="config/collector.yaml" --destination="$install_dir/config/collector.yaml"
 
 #=================================================
 # SET FILE OWNERSHIP / PERMISSIONS
@@ -70,25 +64,23 @@ ynh_add_config --template="config/collector.yaml" --destination="$install_dir/co
 myynh_set_permissions
 
 #=================================================
-# GENERIC FINALIZATION
-#=================================================
 # START SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Starting a systemd service..." --weight=1
-ynh_systemd_action --service_name="influxdb" --action="enable"
-ynh_systemd_action --service_name="influxdb" --action="start"
+ynh_script_progression "Starting $app's systemd service..."
+ynh_systemctl --service="influxdb" --action="enable"
+ynh_systemctl --service="influxdb" --action="start"
 
-ynh_systemd_action --service_name="scrutiny-web-server.service" --action="enable"
-ynh_systemd_action --service_name="scrutiny-web-server.service" --action="start" --log_path="/var/log/$app/web-server.log"
+ynh_systemctl --service="scrutiny-web-server.service" --action="enable"
+ynh_systemctl --service="scrutiny-web-server.service" --action="start" --log_path="/var/log/$app/web-server.log"
 
 if [ $collector -eq 1 ]
 then
 	systemctl daemon-reload
-	ynh_systemd_action --service_name="scrutiny-collector.timer" --action="enable"
-	ynh_systemd_action --service_name="scrutiny-collector.timer" --action="start" --log_path="/var/log/$app/collector.log"
+	ynh_systemctl --service="scrutiny-collector.timer" --action="enable"
+	ynh_systemctl --service="scrutiny-collector.timer" --action="start" --log_path="/var/log/$app/collector.log"
 fi
 
 #=================================================
 # END OF SCRIPT
 #=================================================
-ynh_script_progression --message="Installation of $app completed" --last
+ynh_script_progression "Installation of $app completed"
