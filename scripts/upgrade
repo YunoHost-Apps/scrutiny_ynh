@@ -6,9 +6,7 @@ source /usr/share/yunohost/helpers
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
 #=================================================
-ynh_script_progression "Ensuring downward compatibility..."
-ynh_safe_rm "$install_dir/bin/scrutiny-web-linux-$YNH_ARCH"
-ynh_safe_rm "$install_dir/bin/scrutiny-collector-metrics-linux-$YNH_ARCH"
+#ynh_script_progression "Ensuring downward compatibility..."
 
 #=================================================
 # STOP SYSTEMD SERVICE
@@ -31,7 +29,7 @@ fi
 ynh_script_progression "Upgrading source files..."
 
 # Download, check integrity, uncompress and patch the source from app.src
-ynh_setup_source --source_id="main" --dest_dir="$install_dir/bin"
+ynh_setup_source --source_id="scrutiny-web-linux" --dest_dir="$install_dir/bin"
 ynh_setup_source --source_id="scrutiny-collector-metrics-linux" --dest_dir="$install_dir/bin"
 ynh_setup_source --source_id="scrutiny-web-frontend" --dest_dir="$install_dir/web"
 

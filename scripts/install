@@ -11,7 +11,7 @@ source /usr/share/yunohost/helpers
 ynh_script_progression "Setting up source files..."
 
 mkdir -p "$install_dir/bin"
-ynh_setup_source --source_id="main" --dest_dir="$install_dir/bin"
+ynh_setup_source --source_id="scrutiny-web-linux" --dest_dir="$install_dir/bin"
 ynh_setup_source --source_id="scrutiny-collector-metrics-linux" --dest_dir="$install_dir/bin"
 
 mkdir -p "$install_dir/web"

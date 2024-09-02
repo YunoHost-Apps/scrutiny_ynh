@@ -42,7 +42,7 @@ ram.runtime = "50M"
 [resources]
     [resources.sources]
 
-        [resources.sources.main]
+        [resources.sources.scrutiny-web-linux]
         in_subdir = false
         rename = "scrutiny-web-linux"
         amd64.url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.8.1/scrutiny-web-linux-amd64"
@@ -56,6 +56,7 @@ ram.runtime = "50M"
 
         [resources.sources.scrutiny-collector-metrics-linux]
         in_subdir = false
+        rename = "scrutiny-collector-metrics-linux"
         amd64.url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.8.1/scrutiny-collector-metrics-linux-amd64"
         amd64.sha256 = "904056ddc4e0bd3455a0db45d56f98084135a967eef018d18bfc8e4c0ef6887e"
         arm64.url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.8.1/scrutiny-collector-metrics-linux-arm64"
