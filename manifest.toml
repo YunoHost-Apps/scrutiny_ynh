@@ -4,7 +4,7 @@ id = "scrutiny"
 name = "Scrutiny"
 description.en = "WebUI for smartd S.M.A.R.T monitoring"
 
-version = "0.8.1~ynh1"
+version = "0.8.1~ynh2"
 
 maintainers = ["ewilly"]
 
@@ -15,7 +15,8 @@ code = "https://github.com/AnalogJ/scrutiny"
 fund = "https://paypal.me/analogj/usd10"
 
 [integration]
-yunohost = ">= 11.2"
+yunohost = ">= 11.2.18"
+helpers_version = "2.1"
 architectures = ["amd64", "arm64"]
 multi_instance = false
 ldap = "not_relevant"
@@ -41,7 +42,7 @@ ram.runtime = "50M"
 [resources]
     [resources.sources]
 
-        [resources.sources.main]
+        [resources.sources.scrutiny-web-linux]
         in_subdir = false
         rename = "scrutiny-web-linux"
         amd64.url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.8.1/scrutiny-web-linux-amd64"
@@ -55,6 +56,7 @@ ram.runtime = "50M"
 
         [resources.sources.scrutiny-collector-metrics-linux]
         in_subdir = false
+        rename = "scrutiny-collector-metrics-linux"
         amd64.url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.8.1/scrutiny-collector-metrics-linux-amd64"
         amd64.sha256 = "904056ddc4e0bd3455a0db45d56f98084135a967eef018d18bfc8e4c0ef6887e"
         arm64.url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.8.1/scrutiny-collector-metrics-linux-arm64"
@@ -75,9 +77,6 @@ ram.runtime = "50M"
     [resources.system_user]
 
     [resources.install_dir]
-    dir = "/var/www/__APP__"
-    owner = "__APP__:rwx"
-    group = "__APP__:rx"
 
     [resources.permissions]
     main.url = "/"

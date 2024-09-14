@@ -1,44 +1,47 @@
 #!/bin/bash
 
-#=================================================
-# GENERIC START
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
 # REMOVE SYSTEM CONFIGURATIONS
 #=================================================
-# REMOVE SYSTEMD SERVICE 
+# REMOVE SYSTEMD SERVICE
+
 #=================================================
 
-ynh_script_progression --message="Removing system configurations related to $app..." --weight=1
+ynh_script_progression "Removing system configurations related to $app..."
 
-if ynh_exec_warn_less yunohost service status "scrutiny-web-server" >/dev/null
+if ynh_hide_warnings yunohost service status "scrutiny-web-server.service" >/dev/null
 then
-	ynh_script_progression --message="Removing scrutiny-web-server service integration..." --weight=1
+	ynh_systemctl --service="scrutiny-web-server.service" --action="stop"
+	ynh_systemctl --service="scrutiny-web-server.service" --action="disable"
 	yunohost service remove "scrutiny-web-server"
 fi
 
-if ynh_exec_warn_less yunohost service status "scrutiny-collector" >/dev/null
+if ynh_hide_warnings yunohost service status "scrutiny-collector.timer" >/dev/null
 then
-	ynh_script_progression --message="Removing scrutiny-collector service integration..." --weight=1
+	ynh_systemctl --service="scrutiny-collector.timer" --action="stop"
+	ynh_systemctl --service="scrutiny-collector.timer" --action="disable"
 	yunohost service remove "scrutiny-collector"
 fi
 
-ynh_remove_systemd_config --service="scrutiny-web-server"
-ynh_remove_systemd_config --service="scrutiny-collector"
-ynh_secure_remove --file="/etc/systemd/system/scrutiny-collector.timer"
+if ynh_hide_warnings yunohost service status "scrutiny-collector.service" >/dev/null
+then
+	ynh_systemctl --service="scrutiny-collector.service" --action="stop"
+	ynh_systemctl --service="scrutiny-collector.service" --action="disable"
+fi
 
-ynh_remove_nginx_config
+ynh_config_remove_systemd "scrutiny-web-server"
+ynh_safe_rm "/etc/systemd/system/scrutiny-collector.timer"
+ynh_config_remove_systemd "scrutiny-collector"
 
-ynh_remove_logrotate
+ynh_config_remove_nginx
+
+ynh_config_remove_logrotate
 
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Removal of $app completed" --last
+ynh_script_progression "Removal of $app completed"
