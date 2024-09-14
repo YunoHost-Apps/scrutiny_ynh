@@ -5,7 +5,7 @@ It shall NOT be edited by hand.
 
 # Scrutiny for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/scrutiny.svg)](https://dash.yunohost.org/appci/app/scrutiny) ![Working status](https://ci-apps.yunohost.org/ci/badges/scrutiny.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/scrutiny.maintain.svg)
+[![Integration level](https://dash.yunohost.org/integration/scrutiny.svg)](https://ci-apps.yunohost.org/ci/apps/scrutiny/) ![Working status](https://ci-apps.yunohost.org/ci/badges/scrutiny.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/scrutiny.maintain.svg)
 
 [![Install Scrutiny with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=scrutiny)
 
@@ -35,7 +35,7 @@ Scrutiny is a simple but focused application, with a couple of core features:
 - (Future) Hard Drive performance testing & tracking
 
 
-**Shipped version:** 0.8.1~ynh1
+**Shipped version:** 0.8.1~ynh2
 
 ## Screenshots
 

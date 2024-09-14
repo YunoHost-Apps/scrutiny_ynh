@@ -5,7 +5,7 @@
 
 # YunoHost 上的 Scrutiny
 
-[![集成程度](https://dash.yunohost.org/integration/scrutiny.svg)](https://dash.yunohost.org/appci/app/scrutiny) ![工作状态](https://ci-apps.yunohost.org/ci/badges/scrutiny.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/scrutiny.maintain.svg)
+[![集成程度](https://dash.yunohost.org/integration/scrutiny.svg)](https://ci-apps.yunohost.org/ci/apps/scrutiny/) ![工作状态](https://ci-apps.yunohost.org/ci/badges/scrutiny.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/scrutiny.maintain.svg)
 
 [![使用 YunoHost 安装 Scrutiny](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=scrutiny)
 
@@ -35,7 +35,7 @@ Scrutiny is a simple but focused application, with a couple of core features:
 - (Future) Hard Drive performance testing & tracking
 
 
-**分发版本：** 0.8.1~ynh1
+**分发版本：** 0.8.1~ynh2
 
 ## 截图
 
