@@ -12,21 +12,29 @@ source /usr/share/yunohost/helpers
 
 ynh_script_progression "Removing system configurations related to $app..."
 
-if ynh_hide_warnings yunohost service status "scrutiny-web-server" >/dev/null
+if ynh_hide_warnings yunohost service status "scrutiny-web-server.service" >/dev/null
 then
-	ynh_script_progression "Removing scrutiny-web-server service integration..."
+	ynh_systemctl --service="scrutiny-web-server.service" --action="stop"
+	ynh_systemctl --service="scrutiny-web-server.service" --action="disable"
 	yunohost service remove "scrutiny-web-server"
 fi
 
-if ynh_hide_warnings yunohost service status "scrutiny-collector" >/dev/null
+if ynh_hide_warnings yunohost service status "scrutiny-collector.timer" >/dev/null
 then
-	ynh_script_progression "Removing scrutiny-collector service integration..."
+	ynh_systemctl --service="scrutiny-collector.timer" --action="stop"
+	ynh_systemctl --service="scrutiny-collector.timer" --action="disable"
 	yunohost service remove "scrutiny-collector"
 fi
 
-ynh_config_remove_systemd"scrutiny-web-server"
-ynh_config_remove_systemd"scrutiny-collector"
+if ynh_hide_warnings yunohost service status "scrutiny-collector.service" >/dev/null
+then
+	ynh_systemctl --service="scrutiny-collector.service" --action="stop"
+	ynh_systemctl --service="scrutiny-collector.service" --action="disable"
+fi
+
+ynh_config_remove_systemd "scrutiny-web-server"
 ynh_safe_rm "/etc/systemd/system/scrutiny-collector.timer"
+ynh_config_remove_systemd "scrutiny-collector"
 
 ynh_config_remove_nginx
 
