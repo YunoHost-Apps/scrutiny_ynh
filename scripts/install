@@ -15,6 +15,8 @@ ynh_setup_source --source_id="scrutiny-collector-metrics-linux" --dest_dir="$ins
 mkdir -p "$install_dir/web"
 ynh_setup_source --source_id="scrutiny-web-frontend" --dest_dir="$install_dir/web"
 
+myynh_manage_influxdb2
+
 #=================================================
 # APP INITIAL CONFIGURATION
 #=================================================
@@ -29,7 +31,6 @@ else
 fi
 
 ynh_config_add --template="config/scrutiny.yaml" --destination="$install_dir/config/scrutiny.yaml"
-myynh_manage_influxdb2
 ynh_config_add_systemd --service="scrutiny-web-server" --template="systemd-scrutiny-web-server.service"
 yunohost service add "scrutiny-web-server" \
 	--description="WebUI for smartd S.M.A.R.T monitoring" \

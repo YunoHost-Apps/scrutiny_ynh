@@ -14,13 +14,6 @@ myynh_manage_influxdb2 () {
 		influxdb_org_name=$(ynh_app_setting_get --app=$app_influxdb --key=influxdb_org_name)
 		influxdb_bucket_name=$(ynh_app_setting_get --app=$app_influxdb --key=influxdb_bucket_name)
 		influxdb_admin_token=$(ynh_app_setting_get --app=$app_influxdb --key=influxdb_admin_token)
-
-		# Replace value in scrutiny.yaml
-		ynh_replace --match="port: 8086" --replace="port: $influxdb_port" --file="$install_dir/config/scrutiny.yaml"
-		ynh_replace --match="#token:" --replace="token:" --file="$install_dir/config/scrutiny.yaml"
-		ynh_replace --match="#org:" --replace="org:" --file="$install_dir/config/scrutiny.yaml"
-		ynh_replace --match="#bucket:" --replace="bucket:" --file="$install_dir/config/scrutiny.yaml"
-
 	else
 		if ! ynh_in_ci_tests
 		then

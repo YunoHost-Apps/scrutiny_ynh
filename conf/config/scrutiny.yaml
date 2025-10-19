@@ -44,10 +44,10 @@ web:
   influxdb:
     #scheme: 'http'
     host: 127.0.0.1
-    port: 8086
-    #token: '__INFLUXDB_ADMIN_TOKEN__'
-    #org: '__INFLUXDB_ORG_NAME__'
-    #bucket: '__INFLUXDB_BUCKET_NAME__'
+    port: __INFLUXDB_PORT__
+    token: '__INFLUXDB_ADMIN_TOKEN__'
+    org: '__INFLUXDB_ORG_NAME__'
+    bucket: '__INFLUXDB_BUCKET_NAME__'
     retention_policy: true
     # if you wish to disable TLS certificate verification,
     # when using self-signed certificates for example,
