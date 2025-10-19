@@ -10,20 +10,40 @@ ynh_script_progression "Restoring the app main directory..."
 
 ynh_restore "$install_dir"
 
+myynh_manage_influxdb2
+
 #=================================================
-# RESTORE SYSTEM CONFIGURATIONS
-#=================================================
-# RESTORE THE PHP-FPM CONFIGURATION
+# RESTORE SYSTEM CONFIGURATION
 #=================================================
 ynh_script_progression "Restoring system configurations related to $app..."
 
 ynh_restore "/etc/nginx/conf.d/$domain.d/$app.conf"
 
 ynh_restore "/etc/systemd/system/scrutiny-web-server.service"
-ynh_restore "/etc/systemd/system/scrutiny-collector.service"
-ynh_restore "/etc/systemd/system/scrutiny-collector.timer"
+systemctl enable "/etc/systemd/system/scrutiny-web-server.service" --quiet
+yunohost service add "scrutiny-web-server" \
+	--description="WebUI for smartd S.M.A.R.T monitoring" \
+	--log="/var/log/$app/web-server.log" \
+	--test_status="systemctl show scrutiny-web-server.service -p ActiveState --value | grep -v failed"
+
+collector=$(ynh_app_setting_get --key=collector)
+if [ $collector -eq 1 ]
+then
+	ynh_restore "/etc/systemd/system/scrutiny-collector.service"
+	ynh_restore "/etc/systemd/system/scrutiny-collector.timer"
+	systemctl enable "/etc/systemd/system/scrutiny-collector.timer" --quiet
+	yunohost service add "scrutiny-collector" \
+		--description="Collector running on timer (daily) for smartd S.M.A.R.T monitoring" \
+		--log="/var/log/$app/collector.log" \
+		--test_status="systemctl show scrutiny-collector.service -p ActiveState --value | grep -v failed"
+fi
 
 ynh_restore "/etc/logrotate.d/$app"
+
+#=================================================
+# RESTORE VARIOUS FILES
+#=================================================
+
 ynh_restore "/var/log/$app"
 
 myynh_set_permissions
@@ -33,25 +53,21 @@ myynh_set_permissions
 #=================================================
 ynh_script_progression "Reloading NGINX web server and $app's service..."
 
-systemctl daemon-reload
-ynh_systemctl --service="nginx" --action="reload"
+ynh_systemctl --service="$influxdb_systemd_service_name" --action="enable"
+ynh_systemctl --service="$influxdb_systemd_service_name" --action="restart"
 
-ynh_systemctl --service="influxdb" --action="enable"
-ynh_systemctl --service="influxdb" --action="start"
-
-systemctl enable "/etc/systemd/system/scrutiny-web-server.service" --quiet
-yunohost service add "scrutiny-web-server" --description="WebUI for smartd S.M.A.R.T monitoring" --log="/var/log/$app/web-server.log" --test_status="systemctl show scrutiny-web-server.service -p ActiveState --value | grep -v failed"
+ynh_systemctl --service="scrutiny-web-server.service" --action="enable"
 ynh_systemctl --service="scrutiny-web-server.service" --action="start" --log_path="/var/log/$app/web-server.log"
 
 if [ $collector -eq 1 ]
 then
-	yunohost service add "scrutiny-collector" --description="Collector running on timer (daily) for smartd S.M.A.R.T monitoring" --log="/var/log/$app/collector.log" --test_status="systemctl show scrutiny-collector.service -p ActiveState --value | grep -v failed"
 	ynh_systemctl --service="scrutiny-collector.timer" --action="enable"
 	ynh_systemctl --service="scrutiny-collector.timer" --action="start" --log_path="/var/log/$app/collector.log"
 fi
 
+ynh_systemctl --service=nginx --action=reload
+
 #=================================================
 # END OF SCRIPT
 #=================================================
-
 ynh_script_progression "Restoration completed for $app"

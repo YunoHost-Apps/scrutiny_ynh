@@ -4,44 +4,31 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# REMOVE SYSTEM CONFIGURATIONS
+# REMOVE SYSTEM CONFIGURATION
 #=================================================
-# REMOVE SYSTEMD SERVICE
-
-#=================================================
-
 ynh_script_progression "Removing system configurations related to $app..."
 
-if ynh_hide_warnings yunohost service status "scrutiny-web-server.service" >/dev/null
-then
-	ynh_systemctl --service="scrutiny-web-server.service" --action="stop"
-	ynh_systemctl --service="scrutiny-web-server.service" --action="disable"
+ynh_config_remove_logrotate
+
+if ynh_hide_warnings yunohost service status "scrutiny-web-server" >/dev/null; then
 	yunohost service remove "scrutiny-web-server"
 fi
-
-if ynh_hide_warnings yunohost service status "scrutiny-collector.timer" >/dev/null
-then
-	ynh_systemctl --service="scrutiny-collector.timer" --action="stop"
-	ynh_systemctl --service="scrutiny-collector.timer" --action="disable"
-	yunohost service remove "scrutiny-collector"
-fi
-
-if ynh_hide_warnings yunohost service status "scrutiny-collector.service" >/dev/null
-then
-	ynh_systemctl --service="scrutiny-collector.service" --action="stop"
-	ynh_systemctl --service="scrutiny-collector.service" --action="disable"
-fi
-
 ynh_config_remove_systemd "scrutiny-web-server"
-ynh_safe_rm "/etc/systemd/system/scrutiny-collector.timer"
-ynh_config_remove_systemd "scrutiny-collector"
+
+collector=$(ynh_app_setting_get --key=collector)
+if [ $collector -eq 1 ]
+then
+	if ynh_hide_warnings yunohost service status "scrutiny-collector" >/dev/null
+	then
+		yunohost service remove "scrutiny-collector"
+	fi
+	ynh_config_remove_systemd "scrutiny-collector"
+	ynh_safe_rm "/etc/systemd/system/scrutiny-collector.timer"
+fi
 
 ynh_config_remove_nginx
-
-ynh_config_remove_logrotate
 
 #=================================================
 # END OF SCRIPT
 #=================================================
-
 ynh_script_progression "Removal of $app completed"

@@ -25,9 +25,6 @@ ynh_config_change_url_nginx
 #=================================================
 # SPECIFIC MODIFICATIONS
 #=================================================
-# in the change_url context, variables called new_domain, new_path, old_domain, old_path will be available, as well as change_domain and change_path equal to 0 (false) or 1 (true) depending if the domain / path changed
-#=================================================
-
 if [ "$old_path" != "$new_path" ]
 then
 	# Update scrutiny.yaml
@@ -55,8 +52,6 @@ fi
 #=================================================
 ynh_script_progression "Starting $app's systemd service..."
 
-systemctl daemon-reload
-
 ynh_systemctl --service="influxdb" --action="start"
 ynh_systemctl --service="scrutiny-web-server.service" --action="start" --log_path="/var/log/$app/web-server.log"
 if [ $collector -eq 1 ]
@@ -67,5 +62,4 @@ fi
 #=================================================
 # END OF SCRIPT
 #=================================================
-
 ynh_script_progression "Change of URL completed for $app"

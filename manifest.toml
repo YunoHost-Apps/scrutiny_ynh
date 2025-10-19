@@ -4,7 +4,7 @@ id = "scrutiny"
 name = "Scrutiny"
 description.en = "WebUI for smartd S.M.A.R.T monitoring"
 
-version = "0.8.1~ynh2"
+version = "0.8.1~ynh3"
 
 maintainers = ["ewilly"]
 
@@ -15,7 +15,7 @@ code = "https://github.com/AnalogJ/scrutiny"
 fund = "https://paypal.me/analogj/usd10"
 
 [integration]
-yunohost = ">= 11.2.18"
+yunohost = ">= 12.0.9"
 helpers_version = "2.1"
 architectures = ["amd64", "arm64"]
 multi_instance = false
@@ -95,6 +95,3 @@ ram.runtime = "50M"
 
     [resources.apt]
     packages = "smartmontools"
-    extras.influxdb.repo = "deb https://repos.influxdata.com/debian stable main"
-    extras.influxdb.key = "https://repos.influxdata.com/influxdata-archive_compat.key"
-    extras.influxdb.packages = "influxdb2"
