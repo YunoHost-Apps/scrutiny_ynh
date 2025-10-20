@@ -7,7 +7,7 @@
 myynh_manage_influxdb2 () {
 	if yunohost app list | grep -q "influxdb_v2"
 	then
-		# Retrieve info from influxdb_v2_ynh
+		# Retrieve info from influxdb_v2_ynh for scrutiny.yaml
 		app_influxdb="influxdb_v2"
 		influxdb_systemd_service_name="$app_influxdb"
 		influxdb_port=$(ynh_app_setting_get --app=$app_influxdb --key=port)
@@ -27,6 +27,17 @@ myynh_manage_influxdb2 () {
 
 			# Define the influxdb systemd service name
 			influxdb_systemd_service_name="influxdb"
+
+			# Set value for scrutiny.yaml
+			influxdb_port=8086
+			influxdb_org_name=""
+			influxdb_bucket_name=""
+			influxdb_admin_token=""
+
+			# Disable settings in scrutiny.yaml
+			ynh_replace --match="token:" --replace="#token:" --file="../conf/config/scrutiny.yaml"
+			ynh_replace --match="org:" --replace="#org:" --file="../conf/config/scrutiny.yaml"
+			ynh_replace --match="bucket:" --replace="#bucket:" --file="../conf/config/scrutiny.yaml"
 		fi
 	fi
 }
