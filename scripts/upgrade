@@ -4,59 +4,33 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# ENSURE DOWNWARD COMPATIBILITY
-#=================================================
-#ynh_script_progression "Ensuring downward compatibility..."
-
-#=================================================
 # STOP SYSTEMD SERVICE
 #=================================================
 ynh_script_progression "Stopping $app's systemd service..."
 
-ynh_systemctl --service="influxdb" --action="stop"
 ynh_systemctl --service="scrutiny-web-server.service" --action="stop" --log_path="/var/log/$app/web-server.log"
+collector=$(ynh_app_setting_get --key=collector)
 if [ $collector -eq 1 ]
 then
-    ynh_systemctl --service="scrutiny-collector.timer" --action="stop" --log_path="/var/log/$app/collector.log"
+	ynh_systemctl --service="scrutiny-collector.timer" --action="stop" --log_path="/var/log/$app/collector.log"
 fi
 
 #=================================================
-# "REBUILD" THE APP (DEPLOY NEW SOURCES, RERUN NPM BUILD, ETC...)
-#=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-
 ynh_script_progression "Upgrading source files..."
 
-# Download, check integrity, uncompress and patch the source from app.src
 ynh_setup_source --source_id="scrutiny-web-linux" --dest_dir="$install_dir/bin"
 ynh_setup_source --source_id="scrutiny-collector-metrics-linux" --dest_dir="$install_dir/bin"
 ynh_setup_source --source_id="scrutiny-web-frontend" --dest_dir="$install_dir/web"
 
-#=================================================
-# REAPPLY SYSTEM CONFIGURATIONS
-#=================================================
-ynh_script_progression "Upgrading system configurations related to $app..."
+myynh_manage_influxdb2
+ynh_systemctl --service="$influxdb_systemd_service_name" --action="stop"
 
-ynh_config_add_nginx
-
-ynh_config_add_systemd --service="scrutiny-web-server" --template="systemd-scrutiny-web-server.service"
-yunohost service add "scrutiny-web-server" --description="WebUI for smartd S.M.A.R.T monitoring" --log="/var/log/$app/web-server.log" --test_status="systemctl show scrutiny-web-server.service -p ActiveState --value | grep -v failed"
-
-ynh_config_add --template="systemd-scrutiny-collector.service" --destination="/etc/systemd/system/scrutiny-collector.service"
-if [ $collector -eq 1 ]
-then
-	yunohost service add "scrutiny-collector" --description="Collector running on timer (daily) for smartd S.M.A.R.T monitoring" --log="/var/log/$app/collector.log" --test_status="systemctl show scrutiny-collector.service -p ActiveState --value | grep -v failed"
-fi
-
-ynh_config_add_logrotate
-
-#=================================================
-# RECONFIGURE THE APP (UPDATE CONF, APPLY MIGRATIONS, ...)
 #=================================================
 # UPDATE A CONFIG FILE
 #=================================================
-ynh_script_progression "Updating configuration..."
+ynh_script_progression "Updating $app's configuration files..."
 
 if [ "${path}" == "/" ]
 then
@@ -66,12 +40,31 @@ else
 fi
 ynh_config_add --template="config/scrutiny.yaml" --destination="$install_dir/config/scrutiny.yaml"
 
-ynh_config_add --template="systemd-scrutiny-collector.timer" --destination="/etc/systemd/system/scrutiny-collector.timer"
-ynh_config_add --template="config/collector.yaml" --destination="$install_dir/config/collector.yaml"
+#=================================================
+# REAPPLY SYSTEM CONFIGURATIONS
+#=================================================
+ynh_script_progression "Upgrading system configurations related to $app..."
 
-#=================================================
-# SET FILE OWNERSHIP / PERMISSIONS
-#=================================================
+ynh_config_add_nginx
+
+ynh_config_add_systemd --service="scrutiny-web-server" --template="systemd-scrutiny-web-server.service"
+yunohost service add "scrutiny-web-server" \
+	--description="WebUI for smartd S.M.A.R.T monitoring" \
+	--log="/var/log/$app/web-server.log" \
+	--test_status="systemctl show scrutiny-web-server.service -p ActiveState --value | grep -v failed"
+
+if [ $collector -eq 1 ]
+then
+	ynh_config_add --template="config/collector.yaml" --destination="$install_dir/config/collector.yaml"
+	ynh_config_add --template="systemd-scrutiny-collector.service" --destination="/etc/systemd/system/scrutiny-collector.service"
+	ynh_config_add --template="systemd-scrutiny-collector.timer" --destination="/etc/systemd/system/scrutiny-collector.timer"
+	yunohost service add "scrutiny-collector" \
+		--description="Collector running on timer (daily) for smartd S.M.A.R.T monitoring" \
+		--log="/var/log/$app/collector.log" \
+		--test_status="systemctl show scrutiny-collector.service -p ActiveState --value | grep -v failed"
+fi
+
+ynh_config_add_logrotate
 
 myynh_set_permissions
 
@@ -80,13 +73,12 @@ myynh_set_permissions
 #=================================================
 ynh_script_progression "Starting $app's systemd service..."
 
-systemctl daemon-reload
-
-ynh_systemctl --service="influxdb" --action="enable"
-ynh_systemctl --service="influxdb" --action="start"
+ynh_systemctl --service="$influxdb_systemd_service_name" --action="enable"
+ynh_systemctl --service="$influxdb_systemd_service_name" --action="start"
 
 ynh_systemctl --service="scrutiny-web-server.service" --action="enable"
 ynh_systemctl --service="scrutiny-web-server.service" --action="start" --log_path="/var/log/$app/web-server.log"
+
 if [ $collector -eq 1 ]
 then
 	ynh_systemctl --service="scrutiny-collector.timer" --action="enable"
@@ -96,5 +88,4 @@ fi
 #=================================================
 # END OF SCRIPT
 #=================================================
-
 ynh_script_progression "Upgrade of $app completed"

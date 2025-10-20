@@ -1,6 +1,6 @@
 [Unit]
 Description=Scrutiny Collector
-After=network-online.target scrutiny-web-server.service
+After=network-online.target scrutiny-web-server.service __INFLUXDB_SYSTEMD_SERVICE_NAME__.service
 
 [Service]
 Type=oneshot

@@ -1,0 +1,1 @@
+- ⚠️ Scrutiny requires the YunoHost package [InfluxDB v2](https://github.com/YunoHost-Apps/influxdb_v2_ynh) to be installed beforehand.
