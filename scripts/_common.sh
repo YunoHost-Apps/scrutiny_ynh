@@ -34,10 +34,13 @@ myynh_manage_influxdb2 () {
 			influxdb_bucket_name=""
 			influxdb_admin_token=""
 
-			# Disable settings in scrutiny.yaml
-			ynh_replace --match="token:" --replace="#token:" --file="../conf/config/scrutiny.yaml"
-			ynh_replace --match="org:" --replace="#org:" --file="../conf/config/scrutiny.yaml"
-			ynh_replace --match="bucket:" --replace="#bucket:" --file="../conf/config/scrutiny.yaml"
+			# Disable settings in scrutiny.yaml (except for restore process)
+			if [ -e "../conf/config/scrutiny.yaml" ]
+			then
+				ynh_replace --match="token:" --replace="#token:" --file="../conf/config/scrutiny.yaml"
+				ynh_replace --match="org:" --replace="#org:" --file="../conf/config/scrutiny.yaml"
+				ynh_replace --match="bucket:" --replace="#bucket:" --file="../conf/config/scrutiny.yaml"
+			fi
 		fi
 	fi
 }
