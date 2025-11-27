@@ -15,33 +15,7 @@ myynh_manage_influxdb2 () {
 		influxdb_bucket_name=$(ynh_app_setting_get --app=$app_influxdb --key=influxdb_bucket_name)
 		influxdb_admin_token=$(ynh_app_setting_get --app=$app_influxdb --key=influxdb_admin_token)
 	else
-		if ! ynh_in_ci_tests
-		then
-			ynh_die "influxdb_v2 is needed, but it is not installed. There is a package for that!"
-		else
-			# Install only the influxdb2 package for ci test purpose
-			ynh_apt_install_dependencies_from_extra_repository \
-				--repo="deb https://repos.influxdata.com/debian stable main" \
-				--package="influxdb2" \
-				--key="https://repos.influxdata.com/influxdata-archive_compat.key"
-
-			# Define the influxdb systemd service name
-			influxdb_systemd_service_name="influxdb"
-
-			# Set value for scrutiny.yaml
-			influxdb_port=8086
-			influxdb_org_name=""
-			influxdb_bucket_name=""
-			influxdb_admin_token=""
-
-			# Disable settings in scrutiny.yaml (except for restore process)
-			if [ -e "../conf/config/scrutiny.yaml" ]
-			then
-				ynh_replace --match="token:" --replace="#token:" --file="../conf/config/scrutiny.yaml"
-				ynh_replace --match="org:" --replace="#org:" --file="../conf/config/scrutiny.yaml"
-				ynh_replace --match="bucket:" --replace="#bucket:" --file="../conf/config/scrutiny.yaml"
-			fi
-		fi
+		ynh_die "influxdb_v2 is needed, but it is not installed. There is a package for that!"
 	fi
 }
 
