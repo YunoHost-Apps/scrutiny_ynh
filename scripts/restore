@@ -43,8 +43,9 @@ ynh_restore "/etc/logrotate.d/$app"
 #=================================================
 # RESTORE VARIOUS FILES
 #=================================================
-
 ynh_restore "/var/log/$app"
+
+ynh_restore "/etc/sudoers.d/$app"
 
 myynh_set_permissions
 
