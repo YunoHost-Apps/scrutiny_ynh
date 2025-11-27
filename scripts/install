@@ -57,6 +57,10 @@ ynh_config_add_nginx
 
 ynh_config_add_logrotate
 
+# Grant sudo permissions to the user to manage his own systemd service
+mkdir -p "/etc/sudoers.d"
+ynh_config_add --template="sudoers" --destination="/etc/sudoers.d/$app"
+
 myynh_set_permissions
 
 #=================================================

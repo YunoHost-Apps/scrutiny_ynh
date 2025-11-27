@@ -4,9 +4,8 @@ After=network-online.target scrutiny-web-server.service __INFLUXDB_SYSTEMD_SERVI
 
 [Service]
 Type=oneshot
-# Only root can fully execute smartcl features
-User=root
-Group=root
+User=__APP__
+Group=__APP__
 WorkingDirectory=__INSTALL_DIR__
 LogsDirectory=__APP__
 StateDirectory=__APP__

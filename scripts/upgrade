@@ -66,6 +66,8 @@ fi
 
 ynh_config_add_logrotate
 
+ynh_config_add --template="sudoers" --destination="/etc/sudoers.d/$app"
+
 myynh_set_permissions
 
 #=================================================

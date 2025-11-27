@@ -9,8 +9,7 @@ test_format = 1.0
 	sudo yunohost tools update apps
 	sudo yunohost app install https://github.com/YunoHost-Apps/influxdb_v2_ynh/ \
 	--args "&domain=domain.tld&init_main_permission=visitors&admin=package_checker&password=p@ssw0rd&influxdb_org_name=flux-org&influxdb_bucket_name=flux-bucket&influxdb_bucket_retention=30d&is_public=1&path=/influxdb&" \
-	--force \
-	--debug
+	--force
 	"""
 
 
