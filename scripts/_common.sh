@@ -3,6 +3,7 @@
 #=================================================
 # COMMON VARIABLES AND CUSTOM HELPERS
 #=================================================
+collector_user="root"
 
 myynh_manage_influxdb2 () {
 	if yunohost app list | grep -q "influxdb_v2"
