@@ -4,8 +4,8 @@ After=network-online.target scrutiny-web-server.service __INFLUXDB_SYSTEMD_SERVI
 
 [Service]
 Type=oneshot
-User=__APP__
-Group=__APP__
+User=root
+Group=root
 WorkingDirectory=__INSTALL_DIR__
 LogsDirectory=__APP__
 StateDirectory=__APP__
@@ -46,7 +46,8 @@ CapabilityBoundingSet=~CAP_BLOCK_SUSPEND CAP_WAKE_ALARM
 CapabilityBoundingSet=~CAP_SYS_TTY_CONFIG
 CapabilityBoundingSet=~CAP_MAC_ADMIN CAP_MAC_OVERRIDE
 CapabilityBoundingSet=~CAP_NET_ADMIN CAP_NET_BROADCAST CAP_NET_RAW
-#CapabilityBoundingSet=~CAP_SYS_ADMIN CAP_SYS_PTRACE CAP_SYSLOG
+#CapabilityBoundingSet=~CAP_SYS_ADMIN CAP_SYS_PTRACE CAP_SYSLOG # CAP_SYS_ADMIN & CAP_SYS_RAWIO are needed capabilities
+CapabilityBoundingSet=~CAP_SYS_PTRACE CAP_SYSLOG
 
 [Install]
 WantedBy=multi-user.target

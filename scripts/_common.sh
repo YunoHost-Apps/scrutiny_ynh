@@ -27,6 +27,4 @@ myynh_set_permissions () {
 
 	chown $app:root "/var/log/$app"
 	chmod -R u=rwX,g=rX,o= "/var/log/$app"
-
-	[ -e "/etc/sudoers.d/$app" ] && chown -R root: "/etc/sudoers.d/$app"
 }
