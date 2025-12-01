@@ -3,6 +3,7 @@
 #=================================================
 # COMMON VARIABLES AND CUSTOM HELPERS
 #=================================================
+collector_user="root"
 
 myynh_manage_influxdb2 () {
 	if yunohost app list | grep -q "influxdb_v2"
@@ -27,6 +28,4 @@ myynh_set_permissions () {
 
 	chown $app:root "/var/log/$app"
 	chmod -R u=rwX,g=rX,o= "/var/log/$app"
-
-	[ -e "/etc/sudoers.d/$app" ] && chown -R root: "/etc/sudoers.d/$app"
 }
