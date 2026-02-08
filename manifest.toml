@@ -4,7 +4,7 @@ id = "scrutiny"
 name = "Scrutiny"
 description.en = "WebUI for smartd S.M.A.R.T monitoring"
 
-version = "0.8.1~ynh7"
+version = "0.8.2~ynh1"
 
 maintainers = ["ewilly"]
 
@@ -42,7 +42,7 @@ ram.runtime = "50M"
 [resources]
     [resources.sources]
 
-        [resources.sources.scrutiny-web-linux]
+        [resources.sources.main]
         in_subdir = false
         rename = "scrutiny-web-linux"
         amd64.url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.8.2/scrutiny-web-linux-amd64"
