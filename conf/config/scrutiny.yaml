@@ -7,10 +7,10 @@ web:
     host: 127.0.0.1
     basepath: '__BASE_PATH__'
   database:
-    location: __DATA_DIR__/scrutiny.db
+    location: '__DATA_DIR__/scrutiny.db'
   src:
     frontend:
-      path: __INSTALL_DIR__/web
+      path: '__INSTALL_DIR__/web'
   influxdb:
     #scheme: 'http'
     host: 127.0.0.1
