@@ -24,4 +24,4 @@ web:
 
 log:
   file: '/var/log/__APP__/web-server.log'
-  level: INFO
+  level: DEBUG

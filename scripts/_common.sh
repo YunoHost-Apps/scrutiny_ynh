@@ -27,7 +27,7 @@ myynh_set_permissions () {
 	chmod -R +x "$install_dir/bin/"
 
 	chown -R "$app:" "$data_dir"
-	chmod u=rwX,g=rX,o= "$data_dir"
+	chmod u=rwX,g=rwX,o= "$data_dir"
 	chmod -R o-rwx "$data_dir"
 
 	chown $app:root "/var/log/$app"

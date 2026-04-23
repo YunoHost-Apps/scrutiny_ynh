@@ -8,7 +8,7 @@ devices:
 
 log:
   file: '/var/log/__APP__/collector.log'
-  level: INFO
+  level: DEBUG
 
 api:
   endpoint: 'http://127.0.0.1:__PORT____PATH__/'
