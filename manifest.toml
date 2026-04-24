@@ -86,17 +86,17 @@ ram.runtime = "50M"
 	main.show_tile = true
 	main.protected= true
 	main.allowed = "admins"
+	api_secret.url = "re:__DOMAIN____PATH__/api/.*"
+	api_secret.auth_header = false
+	api_secret.show_tile = false
+	api_secret.protected= true
+	api_secret.allowed = "admins"
 	api.url = "/api"
 	api.additional_urls = ["/api/devices/register"]
 	api.allowed = "visitors"
 	api.auth_header = false
 	api.show_tile = false
 	api.protected= true
-	api_secret.url = "re:__DOMAIN____PATH__/api/.*"
-	api_secret.auth_header = false
-	api_secret.show_tile = false
-	api_secret.protected= true
-	api_secret.allowed = "admins"
 
 	[resources.ports]
 	main.default = 8080
