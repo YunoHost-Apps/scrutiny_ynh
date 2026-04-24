@@ -4,7 +4,7 @@ id = "scrutiny"
 name = "Scrutiny"
 description.en = "WebUI for smartd S.M.A.R.T monitoring"
 
-version = "0.9.1~ynh1"
+version = "0.9.1~ynh2"
 
 maintainers = ["ewilly"]
 
@@ -82,15 +82,20 @@ ram.runtime = "50M"
 
 	[resources.permissions]
 	main.url = "/"
-	main.auth_header = false
-	main.show_tile = true
-	main.protected= true
+	#main.auth_header = false
+	#main.show_tile = true
+	#main.protected= true
 	main.allowed = "admins"
 	api.url = "/api"
+	api.allowed = "visitors"
 	api.auth_header = false
 	api.show_tile = false
 	api.protected= true
-	api.allowed = ["visitors", "all_users"]
+	api_secret.url = "re:__DOMAIN____PATH__/api/.*"
+	api_secret.auth_header = false
+	api_secret.show_tile = false
+	api_secret.protected= true
+	api_secret.allowed = "admins"
 
 	[resources.ports]
 	main.default = 8080
