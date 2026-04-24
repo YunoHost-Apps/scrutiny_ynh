@@ -87,6 +87,7 @@ ram.runtime = "50M"
 	main.protected= true
 	main.allowed = "admins"
 	api.url = "/api"
+	api.additional_urls = ["/api/devices/register"]
 	api.allowed = "visitors"
 	api.auth_header = false
 	api.show_tile = false
