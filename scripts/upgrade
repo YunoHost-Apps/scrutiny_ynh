@@ -16,13 +16,23 @@ then
 fi
 
 #=================================================
+# ENSURE DOWNWARD COMPATIBILITY
+#=================================================
+ynh_script_progression "Ensuring downward compatibility..."
+
+if ynh_app_upgrading_from_version_before 0.9.1~ynh1
+then
+	mv "$install_dir/config/scrutiny.db" "$data_dir/"
+fi
+
+#=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 ynh_script_progression "Upgrading source files..."
 
 ynh_setup_source --dest_dir="$install_dir/bin"
 ynh_setup_source --source_id="scrutiny-collector-metrics-linux" --dest_dir="$install_dir/bin"
-ynh_setup_source --source_id="scrutiny-web-frontend" --dest_dir="$install_dir/web"
+ynh_setup_source --source_id="scrutiny-web-frontend" --dest_dir="$install_dir/web" --full_replace=1
 
 myynh_manage_influxdb2
 ynh_systemctl --service="$influxdb_systemd_service_name" --action="stop"
