@@ -26,72 +26,74 @@ ram.build = "50M"
 ram.runtime = "50M"
 
 [install]
-    [install.domain]
-    type = "domain"
+	[install.domain]
+	type = "domain"
 
-    [install.path]
-    type = "path"
-    default = "/scrutiny"
-    
-    [install.collector]
-    ask.en = "Should the collector be activated on this host?"
-    help.en = "Let it to true if yunohost is running on bare metal (i.e. not in a VM or in a LXC)"
-    type = "boolean"
-    default = true
+	[install.path]
+	type = "path"
+	default = "/scrutiny"
+
+	[install.collector]
+	ask.en = "Should the collector be activated on this host?"
+	help.en = "Let it to true if yunohost is running on bare metal (i.e. not in a VM or in a LXC)"
+	type = "boolean"
+	default = true
 
 [resources]
-    [resources.sources]
+	[resources.sources]
 
-        [resources.sources.main]
-        in_subdir = false
-        rename = "scrutiny-web-linux"
-        amd64.url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.9.1/scrutiny-web-linux-amd64"
-        amd64.sha256 = "d62177512d28b23f19d7d68600d8a3fcb262ba0222bea105086298753b72ba8a"
-        arm64.url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.9.1/scrutiny-web-linux-arm64"
-        arm64.sha256 = "b445afc1bfacbdf52ceea51bb61fbe1cad3fc5da1b32fb88d3eff5d1924817b1"
+		[resources.sources.main]
+		in_subdir = false
+		rename = "scrutiny-web-linux"
+		amd64.url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.9.1/scrutiny-web-linux-amd64"
+		amd64.sha256 = "d62177512d28b23f19d7d68600d8a3fcb262ba0222bea105086298753b72ba8a"
+		arm64.url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.9.1/scrutiny-web-linux-arm64"
+		arm64.sha256 = "b445afc1bfacbdf52ceea51bb61fbe1cad3fc5da1b32fb88d3eff5d1924817b1"
 
-        autoupdate.strategy = "latest_github_release"
-        autoupdate.asset.amd64 = "^scrutiny-web-linux-amd64$"
-        autoupdate.asset.arm64 = "^scrutiny-web-linux-arm64$"
+		autoupdate.strategy = "latest_github_release"
+		autoupdate.asset.amd64 = "^scrutiny-web-linux-amd64$"
+		autoupdate.asset.arm64 = "^scrutiny-web-linux-arm64$"
 
-        [resources.sources.scrutiny-collector-metrics-linux]
-        in_subdir = false
-        rename = "scrutiny-collector-metrics-linux"
-        amd64.url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.9.1/scrutiny-collector-metrics-linux-amd64"
-        amd64.sha256 = "7d0d0667c8cbb6bb67c852cbed875371a7e297293012e66f6803a9f388a454c9"
-        arm64.url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.9.1/scrutiny-collector-metrics-linux-arm64"
-        arm64.sha256 = "12eb539ce84c454fe7f442cfb2f5ada84bae8fb36440a700a9bbb588bd807858"
+		[resources.sources.scrutiny-collector-metrics-linux]
+		in_subdir = false
+		rename = "scrutiny-collector-metrics-linux"
+		amd64.url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.9.1/scrutiny-collector-metrics-linux-amd64"
+		amd64.sha256 = "7d0d0667c8cbb6bb67c852cbed875371a7e297293012e66f6803a9f388a454c9"
+		arm64.url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.9.1/scrutiny-collector-metrics-linux-arm64"
+		arm64.sha256 = "12eb539ce84c454fe7f442cfb2f5ada84bae8fb36440a700a9bbb588bd807858"
 
-        autoupdate.strategy = "latest_github_release"
-        autoupdate.asset.amd64 = "^scrutiny-collector-metrics-linux-amd64$"
-        autoupdate.asset.arm64 = "^scrutiny-collector-metrics-linux-arm64$"
+		autoupdate.strategy = "latest_github_release"
+		autoupdate.asset.amd64 = "^scrutiny-collector-metrics-linux-amd64$"
+		autoupdate.asset.arm64 = "^scrutiny-collector-metrics-linux-arm64$"
 
-        [resources.sources.scrutiny-web-frontend]
-        in_subdir = true
-        url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.9.1/scrutiny-web-frontend.tar.gz"
-        sha256 = "2ca57006d9368c0172aeb9028dbd9f8ca734a46de1b39392fe89efcf9b4ba15f"
+		[resources.sources.scrutiny-web-frontend]
+		in_subdir = true
+		url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.9.1/scrutiny-web-frontend.tar.gz"
+		sha256 = "2ca57006d9368c0172aeb9028dbd9f8ca734a46de1b39392fe89efcf9b4ba15f"
 
-        autoupdate.strategy = "latest_github_release"
-        autoupdate.asset = "^scrutiny-web-frontend.tar.gz$"
+		autoupdate.strategy = "latest_github_release"
+		autoupdate.asset = "^scrutiny-web-frontend.tar.gz$"
 
-    [resources.system_user]
+	[resources.system_user]
 
-    [resources.install_dir]
+	[resources.install_dir]
 
-    [resources.permissions]
-    main.url = "/"
-    main.auth_header = false
-    main.show_tile = true
-    main.protected= true
-    main.allowed = "admins"
-    api.url = "/api"
-    api.auth_header = false
-    api.show_tile = false
-    api.protected= true
-    api.allowed = ["visitors", "all_users"]
+	[resources.data_dir]
 
-    [resources.ports]
-    main.default = 8080
+	[resources.permissions]
+	main.url = "/"
+	main.auth_header = false
+	main.show_tile = true
+	main.protected= true
+	main.allowed = "admins"
+	api.url = "/api"
+	api.auth_header = false
+	api.show_tile = false
+	api.protected= true
+	api.allowed = ["visitors", "all_users"]
 
-    [resources.apt]
-    packages = "smartmontools"
+	[resources.ports]
+	main.default = 8080
+
+	[resources.apt]
+	packages = "smartmontools"
