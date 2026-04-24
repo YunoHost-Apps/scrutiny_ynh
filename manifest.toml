@@ -91,11 +91,11 @@ ram.runtime = "50M"
 	api.auth_header = false
 	api.show_tile = false
 	api.protected= true
-	api_secret.url = "/api/summary"
-	api_secret.auth_header = false
-	api_secret.show_tile = false
-	api_secret.protected= true
-	api_secret.allowed = "admins"
+	# api_secret.url = "/api/summary"
+	# api_secret.auth_header = false
+	# api_secret.show_tile = false
+	# api_secret.protected= true
+	# api_secret.allowed = "admins"
 
 	[resources.ports]
 	main.default = 8080
