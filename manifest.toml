@@ -4,7 +4,7 @@ id = "scrutiny"
 name = "Scrutiny"
 description.en = "WebUI for smartd S.M.A.R.T monitoring"
 
-version = "0.9.1~ynh2"
+version = "0.9.2~ynh1"
 
 maintainers = ["ewilly"]
 
@@ -45,10 +45,10 @@ ram.runtime = "50M"
 		[resources.sources.main]
 		in_subdir = false
 		rename = "scrutiny-web-linux"
-		amd64.url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.9.1/scrutiny-web-linux-amd64"
-		amd64.sha256 = "d62177512d28b23f19d7d68600d8a3fcb262ba0222bea105086298753b72ba8a"
-		arm64.url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.9.1/scrutiny-web-linux-arm64"
-		arm64.sha256 = "b445afc1bfacbdf52ceea51bb61fbe1cad3fc5da1b32fb88d3eff5d1924817b1"
+		amd64.url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.9.2/scrutiny-web-linux-amd64"
+		amd64.sha256 = "9992f3156b72176664f384acc8969e8449542fc328e40634d24b51e2758f2564"
+		arm64.url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.9.2/scrutiny-web-linux-arm64"
+		arm64.sha256 = "f2e11f6e75b467e1f2134413cb100d044634350552d57c7fb5ca85dcc2feaab4"
 
 		autoupdate.strategy = "latest_github_release"
 		autoupdate.asset.amd64 = "^scrutiny-web-linux-amd64$"
@@ -57,10 +57,10 @@ ram.runtime = "50M"
 		[resources.sources.scrutiny-collector-metrics-linux]
 		in_subdir = false
 		rename = "scrutiny-collector-metrics-linux"
-		amd64.url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.9.1/scrutiny-collector-metrics-linux-amd64"
-		amd64.sha256 = "7d0d0667c8cbb6bb67c852cbed875371a7e297293012e66f6803a9f388a454c9"
-		arm64.url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.9.1/scrutiny-collector-metrics-linux-arm64"
-		arm64.sha256 = "12eb539ce84c454fe7f442cfb2f5ada84bae8fb36440a700a9bbb588bd807858"
+		amd64.url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.9.2/scrutiny-collector-metrics-linux-amd64"
+		amd64.sha256 = "a8f0c8efe23afbae07957fe7ebd29ed6b3aecdf40bc00cc300c042b77b80c851"
+		arm64.url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.9.2/scrutiny-collector-metrics-linux-arm64"
+		arm64.sha256 = "ba1069197a2c72c33bfe02c2d137724fac694e2e03982179666c4f522514de53"
 
 		autoupdate.strategy = "latest_github_release"
 		autoupdate.asset.amd64 = "^scrutiny-collector-metrics-linux-amd64$"
@@ -68,8 +68,8 @@ ram.runtime = "50M"
 
 		[resources.sources.scrutiny-web-frontend]
 		in_subdir = true
-		url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.9.1/scrutiny-web-frontend.tar.gz"
-		sha256 = "2ca57006d9368c0172aeb9028dbd9f8ca734a46de1b39392fe89efcf9b4ba15f"
+		url = "https://github.com/AnalogJ/scrutiny/releases/download/v0.9.2/scrutiny-web-frontend.tar.gz"
+		sha256 = "8808067b87d75e6190cdc2bb4818976a309254c14869b9af3dba36f2bc1bc1f5"
 
 		autoupdate.strategy = "latest_github_release"
 		autoupdate.asset = "^scrutiny-web-frontend.tar.gz$"
